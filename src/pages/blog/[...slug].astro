@@ -1,14 +1,28 @@
 ---
-import ArticleLayout from "../../layouts/ArticleLayout.astro";
-import { getEntryBySlug, CollectionEntry } from "astro:content";
-// 1. Get the slug from the incoming server request
-const { slug } = Astro.params as { slug: string };
-// 2. Query for the entry directly using the request slug
-const entry = (await getEntryBySlug("blog", slug)) as CollectionEntry<"blog">;
-// 3. (Optional) render the entry to HTML in the template
-const { Content } = await entry.render();
+import marked from "marked";
+import Counter from "../../components/Counter";
+
+const text = `
+## dowadowa
+**dowa----**
+- dowa
+- dowa
+- dowa
+`;
+const html = marked.parse(text);
 ---
 
-<ArticleLayout header={entry.data} meta={entry.data}>
-  <Content />
-</ArticleLayout>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>dowae</title>
+  </head>
+  <body>
+    <Counter client:load />
+    <Fragment set:html={html} />
+  </body>
+</html>
